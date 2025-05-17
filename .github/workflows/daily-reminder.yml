@@ -1,0 +1,18 @@
+name: Daily Reminder
+on:
+  schedule:
+    - cron: '0 9 * * *'  # 每天早9点触发（UTC时间）
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 发送提醒到 Issue
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 1,  # 替换为你的周计划 Issue 编号
+              body: "⏰ 今日学习提醒：请更新进度！\n [任务列表](https://github.com/jjzjjz12/frontend-interview-plan/issues/1)"
+            })
